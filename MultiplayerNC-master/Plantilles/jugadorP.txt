@@ -1,0 +1,21 @@
+#!/bin/bash
+
+echo "1-Pedra
+2-Paper
+3-Tisores"
+
+read eleccio
+	case $eleccio in 
+	
+		1)
+			Jugador1=Pedra
+		;;
+		2)
+			Jugador1=Paper
+		;;
+		3)
+			Jugador1=Tisores
+		;;
+	esac
+Jugador1 >> eleccio.txt
+./carga.sh

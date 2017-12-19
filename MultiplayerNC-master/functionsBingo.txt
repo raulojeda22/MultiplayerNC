@@ -1,0 +1,109 @@
+function jugador
+{
+echo '
+nom=$1
+	numeroDeNumeros="0"
+	while [ $numeroDeNumeros -le 15 ]
+	do
+
+		array=$(($RANDOM%99))
+		binguete=`echo "${numerosBingo[*]}"`
+		numerosBingo[$numeroDeNumeros]="$array"
+		let numeroDeNumeros=$numeroDeNumeros+1
+	done
+	contador=1
+echo "Juegas con estos numeros: $binguete"
+intents=0
+laMareDeJosep=0
+	while [ $laMareDeJosep -eq 0 ]
+		do
+
+		resultatBingo=`cat resultatBingo.txt | cut -d" " -f$contador`
+		let contador=$contador+1
+		elBingo=`echo "${numerosBingo[*]}"`
+		numeroDeNumeros="0"
+
+		for aquestNumero in $elBingo
+		do
+			if [ $aquestNumero -eq $resultatBingo ]
+			then
+				numerosBingo[$numeroDeNumeros]="0"
+			fi
+			let numeroDeNumeros=$numeroDeNumeros+1
+		done
+
+		echo "${numerosBingo[*]}"
+		contadorDeZeros=0
+		numeroDeNumeros="0"
+
+		for zeros in $elBingo
+		do
+			let contadorDeZeros=$contadorDeZeros+$zeros
+		done
+
+		if [ $contadorDeZeros -eq 0 ]
+		then
+			echo "Has acabat amb $intents intents!"
+			echo "$nom $intents" >> resultatsGlobals.txt
+			laMareDeJosep=1
+			./carga.sh $nom
+			break
+			
+		else
+			let intents=$intents+1
+			echo "Portes $intents intents. Pulsa enter per a continuar: "
+			read dsfjhdasdasfdsff
+		fi
+
+	done'
+}
+
+function carga 
+{
+	echo '
+	nom=$1
+	echo "Espera a que acaben els demés..."
+	echo
+	linies=`cat resultatsGlobals.txt | wc -l`		
+
+	while [[ $linies -lt 4 ]]; do
+		linies=`cat resultatsGlobals.txt | wc -l`
+	done
+
+	if [[ $linies -eq 4 ]]; then
+		./server.sh $nom
+	fi'
+
+
+}
+
+
+function server 
+{
+	echo "
+	nom=\$1
+	resultatBingoGlobal=\`cat resultatsGlobals.txt | cut -d' ' -f2\`
+	total=0
+	for cadaNumero in \$resultatBingoGlobal
+	do
+		let total=\$cadaNumero+\$total
+	done
+
+	for aquestsIntents in \$resultatBingoGlobal
+	do
+		if [ \$aquestsIntents -lt \$total ]
+		then
+			total=\$aquestsIntents
+		fi
+	done
+
+	guanyador=\`cat resultatsGlobals.txt | grep -w \$total | cut -d' ' -f1\`
+	intentsGuanyador=\`cat resultatsGlobals.txt | grep -w \$total | cut -d' ' -f2\`
+	echo \"\$guanyador ha sigut el guanyador amb \$intentsGuanyador intents\"
+	awk '\$1==N{\$3+=1}1' N=\$guanyador ../../BaseDeDades.txt > ../../BaseDeDades.tmp
+	mv ../../BaseDeDades.tmp ../../BaseDeDades.txt
+	read jhdfjbhkjfgh
+	cd ../..
+	./Usuaris/\$nom.sh \$nom"
+
+}

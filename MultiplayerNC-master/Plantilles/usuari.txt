@@ -1,0 +1,23 @@
+#!/bin/bash
+
+echo "---MENU---
+1- Contra ordinador
+2- Crear partida
+3- Buscar partida"
+
+case $a in
+	1)
+		./PartidaIA.sh
+	;;
+
+	2)
+		aleatorio=`echo $((1+$RANDOM%1000))`
+		mkdir game$aleatorio
+		cd game$aleatorio
+		touch jugador1.sh jugador2.sh server.sh carga.sh
+	;;
+
+	3)
+		
+	;;
+esac

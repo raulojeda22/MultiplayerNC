@@ -1,0 +1,35 @@
+numeroDeNumeros="1"
+					echo "Hola1"
+					numerosBingoCreador[0]="0"
+					no=0
+					while [ $numeroDeNumeros -le 100 ]
+					do
+						no=0
+						echo "Hola2"
+						array=$(($RANDOM%99))
+						bingoCreador=`echo "${numerosBingoCreador[*]}"`
+						echo "${numerosBingoCreador[*]}"
+						for numeroActual in $bingoCreador
+						do
+							echo "Hola3"
+							if [ $array -eq $numeroActual ]
+							then
+								echo "eeeeeeeeeee"
+								no=1
+								break
+							else
+								echo "Hola4"
+								no=0
+							fi
+							
+						done
+						if [ $no -eq 0 ]
+						then
+								numerosBingoCreador[$numeroDeNumeros]="$array"
+								let numeroDeNumeros=$numeroDeNumeros+1
+								echo "${numerosBingoCreador[*]}"
+						else
+						echo "Hola5"
+						fi
+							echo "Hola6"
+					done
